@@ -1,6 +1,12 @@
 from django import template
 from django.template.loader import render_to_string, TemplateDoesNotExist
 
+try:
+   from django.apps import apps
+   HAS_APPS = True
+except ImportError:
+   HAS_APPS = False
+
 register = template.Library()
 
 
@@ -98,3 +104,11 @@ def render_app_description(context, app, fallback="", template="/admin_app_descr
     except:
         text = fallback
     return text
+
+@register.simple_tag(takes_context=True)
+def custom_field_rendering(context, field, *args, **kwargs):
+    if HAS_APPS:
+        if apps.is_installed('bootstrap3'):
+            from ..renderers import render_field
+            return render_field(field, *args, **kwargs)
+    return field
