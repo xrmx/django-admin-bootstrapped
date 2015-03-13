@@ -32,8 +32,8 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = (
     'bootstrap3',
     'django_admin_bootstrapped',
-    'filer',
-    'easy_thumbnails',
+    #'filer',
+    #'easy_thumbnails',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
