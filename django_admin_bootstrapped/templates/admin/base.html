@@ -38,10 +38,53 @@
             }(jQuery));
     //]]>
     </script>
+    <style>
+    .off-canvas {
+        position:fixed;
+        top: 50px;
+        left: 0;
+        height: 100%;
+        background-color: #333;
+        color: #fff;
+        overflow: hidden;
+        z-index: 50;
+        padding: 15px;
+    }
+    .off-canvas button {
+        margin-bottom: 15px;
+    }
+    .off-canvas .width {
+        height: auto;
+        -webkit-transition: width 0.35s ease;
+        -moz-transition: width 0.35s ease;
+        -o-transition: width 0.35s ease;
+        transition: width 0.35s ease;
+    }
+    .off-canvas h4, .off-canvas .nav {
+        width: 100%;
+        white-space: nowrap;
+    }
+    </style>
 </head>
 {% load i18n %}
 
 <body class="{% if is_popup %}popup {% endif %}{% block bodyclass %}{% endblock %}">
+
+{% if available_apps %}
+    <div class="off-canvas">
+        <button type="button" class="btn btn-default" data-toggle="collapse" data-target="#off-canvas-collapse"><span class="glyphicon glyphicon-th-list"></span></button>
+        <div class="collapse width" id="off-canvas-collapse">
+        {% for app in available_apps %}
+            <h4>{% render_app_name app %}</h4>
+            <ul class="nav">
+            {% for model in app.models %}
+                {% if model.admin_url %}<li><a href="{{ model.admin_url }}">{{ model.name }}</a></li>{% endif %}
+            {% endfor %}
+            </ul>
+        {% endfor %}
+        </div>
+    </div>
+{% endif %}
 
 <!-- Container -->
 <div class="container">
